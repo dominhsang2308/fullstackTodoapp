@@ -17,21 +17,20 @@ def get_todos(request):
 def create_todo(request):
     data = request.data
     todo = Todo.objects.create(
-        todo_name = data['todo_name'],
-        complete_status = data['completed']
+        todo_name = data['todo_name']
     )
     serializer = TodoSerializer(todo,many=False)
     return Response(serializer.data)
 
 @api_view(['PUT'])
-def update_todo(request, primaryKey):
+def update_todo(request, pk):
     data = request.data
     try:
-        todo = Todo.objects.get(pk=primaryKey)
+        todo = Todo.objects.get(pk=pk)
     except Todo.DoesNotExist:
         return Response('Cant find todo')
     
-    serializer = TodoSerializer(todo, data=data, partical = True)
+    serializer = TodoSerializer(todo, data=data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response('Todo Updated')
@@ -39,9 +38,9 @@ def update_todo(request, primaryKey):
     return Response(serializer.errors)
 
 @api_view(['DELETE'])
-def delete_todo(request,primaryKey):
+def delete_todo(request,pk):
     try:
-        todo = Todo.objects.get(pk=primaryKey)
+        todo = Todo.objects.get(pk=pk)
     except Todo.DoesNotExist:
         return Response('cant find todo')
     todo.delete()
