@@ -1,4 +1,4 @@
-import { Flex, HStack, Text, Checkbox, IconButton,Button, useDisclosure, Input } from '@chakra-ui/react'
+import { Flex, HStack, Text, Checkbox, IconButton,Button, useDisclosure, Input, textDecoration } from '@chakra-ui/react'
 import { MdEditNote } from "react-icons/md";
 import { FaTrashAlt } from "react-icons/fa";
 
@@ -16,6 +16,8 @@ import {
 import { useState } from 'react'
 import { update_todo } from '../api/endpoints';
 const Todo = ({id,todo_name, completed, deleteTodo}) => {
+
+    const lineThrough = {textDecoration: "line-through",}
 
     const [clientCompleted, setClientCompleted] = useState(completed)
 
@@ -42,11 +44,11 @@ const Todo = ({id,todo_name, completed, deleteTodo}) => {
         borderColor='gray.300' 
         p='20px 20px'>
 
-            <HStack w='100%' justifyContent='space-between' gap='20px'>
+            <HStack  w='100%' justifyContent='space-between' gap='20px'>
                 <Checkbox onChange={handleCompleted}
                 isChecked={clientCompleted}
                 />
-                <Text>
+                <Text style={clientCompleted ? lineThrough:null}>
                     {clientTodoName}
                 </Text>
                 <HStack gap='18px'>
